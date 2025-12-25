@@ -1,0 +1,19 @@
+{
+  "name": "qease-root",
+  "version": "1.0.0",
+  "description": "Q-Ease - Smart Virtual Queue System",
+  "private": true,
+  "scripts": {
+    "install-all": "cd frontend && npm install && cd ../backend && npm install",
+    "dev-frontend": "cd frontend && npm run dev",
+    "dev-backend": "cd backend && npm run dev",
+    "build-frontend": "cd frontend && npm run build",
+    "build-backend": "cd backend && npm run build",
+    "docker-up": "docker-compose up -d",
+    "docker-down": "docker-compose down",
+    "docker-logs": "docker-compose logs -f"
+  },
+  "keywords": ["queue", "token", "virtual-queue", "digital-queue"],
+  "author": "Jagan",
+  "license": "ISC"
+}

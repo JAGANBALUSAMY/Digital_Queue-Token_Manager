@@ -1,0 +1,46 @@
+services:
+  - type: web
+    name: q-ease-backend
+    env: node
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        sync: false
+      - key: JWT_EXPIRE
+        value: 7d
+      - key: DB_HOST
+        fromDatabase:
+          name: qease-postgres
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: qease-postgres
+          property: port
+      - key: DB_NAME
+        fromDatabase:
+          name: qease-postgres
+          property: database
+      - key: DB_USER
+        fromDatabase:
+          name: qease-postgres
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: qease-postgres
+          property: password
+      - key: REDIS_URL
+        fromRedis:
+          name: qease-redis
+          property: connectionString
+
+databases:
+  - name: qease-postgres
+    databaseName: qease_db
+    user: qease_user
+
+redis:
+  - name: qease-redis
+    maxmemoryPolicy: allkeys-lru
