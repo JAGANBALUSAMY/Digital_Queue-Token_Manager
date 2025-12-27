@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './Organizations.css';
 
 const Organizations = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -45,22 +46,31 @@ const Organizations = () => {
   });
 
   return (
-    <div className="max-w-6xl mx-auto">
-      <h1 className="text-3xl font-bold text-gray-800 mb-8">Find Organizations</h1>
-      
-      <div className="bg-white p-6 rounded-lg shadow-md mb-8">
-        <div className="grid md:grid-cols-3 gap-4">
-          <div className="md:col-span-2">
+    <div className="organizations-page">
+      <div className="organizations-container">
+        {/* Page Header */}
+        <div className="page-header">
+          <h1 className="page-title">Find Organizations</h1>
+          <p className="page-subtitle">
+            Browse verified organizations and join their virtual queues instantly
+          </p>
+        </div>
+
+        {/* Search & Filter Section */}
+        <div className="search-section">
+          <div className="search-wrapper">
             <input
               type="text"
               placeholder="Search by organization name or code..."
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="search-input"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
+            <span className="search-icon">🔍</span>
           </div>
+          
           <select
-            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="domain-filter"
             value={selectedDomain}
             onChange={(e) => setSelectedDomain(e.target.value)}
           >
@@ -71,50 +81,61 @@ const Organizations = () => {
             ))}
           </select>
         </div>
-      </div>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredOrganizations.map(org => (
-          <div key={org.id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition">
-            <div className="p-6">
-              <div className="flex justify-between items-start mb-2">
-                <h3 className="text-xl font-semibold text-gray-800">{org.name}</h3>
-                <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">{org.domain}</span>
+        {/* Organizations Grid */}
+        <div className="organizations-grid">
+          {filteredOrganizations.map(org => (
+            <div key={org.id} className="org-card">
+              <div className="card-header">
+                <h3 className="org-name">{org.name}</h3>
+                <span className="domain-badge">{org.domain}</span>
               </div>
               
-              <div className="flex items-center text-sm text-gray-600 mb-2">
-                <span className="font-medium">Code:</span> {org.code}
-              </div>
-              
-              <div className="flex items-center text-sm text-gray-600 mb-3">
-                <span className="font-medium">Location:</span> {org.location}
-              </div>
-              
-              <div className="mb-4">
-                <div className="flex items-center mb-2">
-                  <span className="text-yellow-400 mr-1">★</span>
-                  <span className="font-medium">{org.rating}</span>
-                  <span className="text-gray-500 text-sm ml-1">/ 5.0</span>
+              <div className="org-details">
+                <div className="detail-item">
+                  <span className="detail-label">Code:</span>
+                  <span className="detail-value">{org.code}</span>
+                </div>
+                <div className="detail-item">
+                  <span className="detail-label">Location:</span>
+                  <span className="detail-value">{org.location}</span>
                 </div>
               </div>
               
-              <div className="mb-4">
-                <h4 className="font-medium text-gray-700 mb-1">Services:</h4>
-                <div className="flex flex-wrap gap-1">
+              <div className="org-rating">
+                <span className="star-icon">★</span>
+                <span className="rating-value">{org.rating}</span>
+                <span className="rating-max">/ 5.0</span>
+              </div>
+              
+              <div className="org-services">
+                <span className="services-label">Services:</span>
+                <div className="services-tags">
                   {org.services.map((service, index) => (
-                    <span key={index} className="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded">
+                    <span key={index} className="service-tag">
                       {service}
                     </span>
                   ))}
                 </div>
               </div>
               
-              <button className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">
+              <button className="join-queue-btn">
                 Join Queue
               </button>
             </div>
+          ))}
+        </div>
+
+        {/* Empty State */}
+        {filteredOrganizations.length === 0 && (
+          <div className="empty-state">
+            <div className="empty-icon">🔍</div>
+            <h3 className="empty-title">No organizations found</h3>
+            <p className="empty-message">
+              Try adjusting your search or filter to find what you're looking for
+            </p>
           </div>
-        ))}
+        )}
       </div>
     </div>
   );
