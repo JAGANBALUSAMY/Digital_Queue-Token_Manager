@@ -53,8 +53,10 @@ app.use('/api/auth', require('./routes/auth'));
 // Protected routes
 app.use('/api/users', auth, require('./routes/users'));
 app.use('/api/organizations', auth, require('./routes/organizations'));
+app.use('/api/organization-users', auth, require('./routes/organizationUsers'));
 app.use('/api/queues', auth, require('./routes/queues'));
 app.use('/api/tokens', auth, require('./routes/tokens'));
+app.use('/api/announcements', auth, require('./routes/announcements'));
 
 // Error handling middleware
 app.use((err, req, res, next) => {

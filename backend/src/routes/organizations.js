@@ -169,4 +169,48 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
+// Verify an organization (admin only)
+router.put('/:id/verify', auth, authorize('manager', 'owner'), async (req, res) => {
+  try {
+    const organization = await Organization.verify(req.params.id);
+    
+    if (!organization) {
+      return res.status(404).json({
+        success: false,
+        message: 'Organization not found'
+      });
+    }
+    
+    res.status(200).json({
+      success: true,
+      data: organization,
+      message: 'Organization verified successfully'
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Server error',
+      error: error.message
+    });
+  }
+});
+
+// Get unverified organizations (admin only)
+router.get('/unverified', auth, authorize('manager', 'owner'), async (req, res) => {
+  try {
+    const organizations = await Organization.getUnverified();
+    
+    res.status(200).json({
+      success: true,
+      data: organizations
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Server error',
+      error: error.message
+    });
+  }
+});
+
 module.exports = router;

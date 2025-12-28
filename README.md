@@ -1,307 +1,99 @@
-# Q-Ease - Smart Virtual Queue System
+# Q-Ease: Digital Queue Token Management System
 
 ## Project Overview
 
-Q-Ease is a multi-domain, digital queue management platform that allows any organization—such as clinics, hostels, offices, canteens, groceries, and service centers—to create and manage virtual queues through a simple admin dashboard.
+Q-Ease is a comprehensive digital queue management system designed to eliminate physical waiting lines and streamline service delivery across multiple domains including healthcare, government, food service, education, banking, and retail.
 
-## Problem Statement
+### Core Features
 
-Across hospitals, clinics, canteens, hostels, offices, groceries, and service centers, people still wait in long physical queues without clarity on how long it will take or when their turn will come. Existing queue systems, where they exist, are usually domain-specific, offline, or limited to a single organization, offering no unified experience for users. This leads to overcrowding, wasted time, stress for elderly and patients, operational inefficiency for staff, and missed service turns.
+- **Authentication System**: User registration with password hashing (bcrypt), login with JWT token generation, protected routes with middleware, role-based access control (customer, staff, manager, owner)
+- **Token Management**: Digital token generation, queue position tracking, estimated wait times, real-time status updates
+- **Multi-Domain Support**: Configurable for healthcare, government, food service, education, banking, and retail environments
+- **Real-time Updates**: WebSocket integration for live queue status updates
+- **Admin Dashboard**: Complete management interface for queue administration
+- **Mobile Responsive**: Fully responsive design for all device sizes
+- **Admin User Management**: Separate admin panel for creating and managing admin users
 
-## Solution
+### Technology Stack
 
-Q-Ease provides a unified digital queue management solution that replaces physical waiting lines with smart, virtual queues, saving time, reducing crowding, and delivering a smooth and stress-free service experience for everyone.
+- **Backend**: Node.js, Express, PostgreSQL
+- **Frontend**: React, Traditional CSS (no Tailwind)
+- **Authentication**: JWT, bcrypt
+- **Real-time**: Socket.io
+- **Queue Management**: Bull Queue
 
-## Feature List
+### Installation & Setup
 
-### User Features
-- Universal Access — Join queues across any registered organisation (clinic, office, canteen, hostel, etc.)
-- Virtual Token Generation — Book a slot instantly without standing in line
-- Real-Time Queue Status — Live updates: current token, estimated wait time
-- Smart Notifications - SMS / in-app / voice alerts as turn approaches (e.g., at T-5 tokens, T-2 tokens, and T-1)
-- Priority Tokens for elderly / differently-abled / emergency cases (if enabled by admin)
-- Queue History & Receipts
-- Multiple Queue Join Support
-- Walk-in User Support via staff token generation
-- Feedback & Rating after service
-- Multilingual UI
+1. **Clone the repository**
+2. **Navigate to the backend directory**: `cd Digital_Queue-Token_Manager/backend`
+3. **Install backend dependencies**: `npm install`
+4. **Create a `.env` file** in the backend directory based on `.env.example`
+5. **Set up PostgreSQL database** (ensure PostgreSQL is running)
+6. **Run database setup**: `node setup-db.js`
+7. **Start the backend server**: `npm start` or `node server.js`
+8. **Open a new terminal and navigate to the frontend directory**: `cd Digital_Queue-Token_Manager/frontend`
+9. **Install frontend dependencies**: `npm install`
+10. **Start the frontend**: `npm run dev`
 
-### Organisation / Admin Features
-- Organisation Registration & Verification
-- Unique 6-digit Organisation Code
-- Role-Based Access - Owner / Manager / Staff
-- Create Multiple Service Queues (Example: OPD, Billing, Pharmacy, Enquiry Counter)
-- Set Queue Rules (Max tokens/day, Service time per user, Priority handling)
-- Dashboard View (Live queue length, Currently served token)
-- No-show / skip management
-- Walk-In Support (Staff can create tokens for offline visitors)
-- Pause / Resume Queue
-- Analytics (Average wait time, Service performance, Daily / monthly reports)
-- Notifications & Announcements
-- Geo-tagging option
-- Security & Audit Logs
+### Admin Panel Access
 
-### System-Level Features
-- Multi-domain support
-- Scalable to handle millions of users
-- Secure authentication
-- Token collision prevention
-- Rate-limited notification triggers
-- Real-time data sync using WebSockets
-- Offline fallback mode (for admins)
+A separate admin panel is available for managing admin users:
 
-## Tech Stack
+1. **Admin Panel Location**: `admin-panel/index.html` (outside the main project folder)
+2. **Access Admin Panel**: Open `admin-panel/index.html` in a web browser
+3. **Admin Login**: Use credentials `qeasy@gmail.com` and password `123456` to access the admin panel
+4. **Admin Functions**: Add new admin users (manager/owner roles), view existing admins
 
-### Frontend
-- React + Tailwind + FCM + Socket.io
+> **Note**: The admin panel is kept separate from the main project to prevent unauthorized access. It's not included in git commits for security purposes.
 
-### Backend
-- Node.js + Express
-- PostgreSQL (Neon)
-- Redis (Upstash)
-- Socket.io
-- BullMQ for scheduled alerts
-- Email via Brevo free tier
-- Push via Firebase
-- Optional SMS via PlaySMS (self-hosted)
+### Environment Variables
 
-### Admin Dash
-- Metabase
-
-### Deployment
-- Vercel (frontend)
-- Render/Railway (backend)
-- GitHub Actions
-
-## Project Structure
+Create a `.env` file in the `Digital_Queue-Token_Manager/backend` directory with the following variables:
 
 ```
-DigitalQueue-TokenManager/
-├── frontend/                 # React frontend with Vite and Tailwind
-│   ├── public/
-│   ├── src/
-│   │   ├── components/       # React components
-│   │   ├── pages/           # Page components
-│   │   ├── hooks/           # Custom React hooks
-│   │   ├── services/        # API service functions
-│   │   ├── utils/           # Utility functions
-│   │   ├── context/         # React context providers
-│   │   ├── assets/          # Static assets
-│   │   ├── App.jsx          # Main application component
-│   │   └── main.jsx         # Entry point
-│   ├── tailwind.config.js
-│   ├── postcss.config.js
-│   ├── package.json
-│   └── vite.config.js
-├── backend/                  # Node.js backend
-│   ├── src/
-│   │   ├── controllers/     # Route controllers
-│   │   ├── routes/          # API routes
-│   │   ├── middleware/      # Express middleware
-│   │   ├── models/          # Database models
-│   │   ├── services/        # Business logic
-│   │   ├── utils/           # Utility functions
-│   │   ├── config/          # Configuration files
-│   │   └── app.js           # Express app setup
-│   ├── package.json
-│   └── server.js            # Server entry point
-├── docs/                    # Documentation
-│   └── api-spec.md          # API specification
-├── docker-compose.yml       # Docker configuration
-└── README.md                # Project documentation
-```
-
-## Development Workflow
-
-1. Frontend development: React components for user and admin interfaces
-2. Backend API development: REST APIs for all features
-3. Database design and implementation
-4. Real-time features with Socket.io
-5. Notification system with BullMQ
-6. Authentication and authorization
-7. Testing and deployment
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js 18+ installed
-- PostgreSQL database (local or cloud - Neon recommended)
-- Redis instance (local or cloud - Upstash recommended)
-- Firebase account (for push notifications)
-- Email service account (Brevo recommended)
-
-### Installation
-
-#### Backend Setup
-
-1. Navigate to the backend directory:
-```bash
-cd backend
-```
-
-2. Install dependencies:
-```bash
-npm install
-```
-
-3. Configure environment variables by editing `.env` file with your credentials:
-```env
-NODE_ENV=development
 PORT=5000
-FRONTEND_URL=http://localhost:5173
-
-DB_HOST=your_db_host
+DB_HOST=localhost
 DB_PORT=5432
 DB_NAME=qease_db
-DB_USER=your_db_user
-DB_PASSWORD=your_db_password
-
-REDIS_HOST=your_redis_host
-REDIS_PORT=6379
-REDIS_PASSWORD=your_redis_password
-
-JWT_SECRET=your_jwt_secret_key
-JWT_EXPIRE=7d
-
-EMAIL_HOST=smtp-relay.brevo.com
-EMAIL_PORT=587
-EMAIL_USER=your_email@domain.com
-EMAIL_PASS=your_email_password
-
-# Firebase configuration
-FIREBASE_PROJECT_ID=your_project_id
-FIREBASE_PRIVATE_KEY=your_private_key
-FIREBASE_CLIENT_EMAIL=your_client_email
+DB_USER=your_database_user
+DB_PASSWORD=your_database_password
+JWT_SECRET=your_jwt_secret_key_here
+REDIS_URL=redis://localhost:6379
+NODE_ENV=development
 ```
 
-4. Start the backend server:
-```bash
-npm run dev
-```
+### Running the Application
 
-The backend will be available at `http://localhost:5000`
+#### Method 1: Separate Terminals (Recommended)
 
-#### Frontend Setup
+1. **Terminal 1 - Backend**: 
+   ```bash
+   cd Digital_Queue-Token_Manager/backend
+   npm start
+   ```
 
-1. Navigate to the frontend directory:
-```bash
-cd frontend
-```
+2. **Terminal 2 - Frontend**:
+   ```bash
+   cd Digital_Queue-Token_Manager/frontend
+   npm run dev
+   ```
 
-2. Install dependencies:
-```bash
-npm install
-```
+3. **Terminal 3 - Admin Panel** (Optional):
+   - Open `admin-panel/index.html` in your web browser
+   - Use credentials: `qeasy@gmail.com` / `123456`
 
-3. Start the development server:
-```bash
-npm run dev
-```
+#### Method 2: Using the Frontend Development Server
 
-The frontend will be available at `http://localhost:5173`
+1. Navigate to the frontend directory: `cd Digital_Queue-Token_Manager/frontend`
+2. Run: `npm run dev`
+3. The frontend will start on `http://localhost:5173`
+4. Make sure the backend is running on `http://localhost:5000`
 
-### Database Setup
+### API Endpoints
 
-1. Create the PostgreSQL database:
-```sql
-CREATE DATABASE qease_db;
-```
+#### Authentication Endpoints
 
-2. Run the database schema from `backend/docs/database-schema.md`
-
-## Deployment
-
-### Using Docker Compose (Recommended for Development/Testing)
-
-1. Make sure Docker and Docker Compose are installed
-
-2. From the project root, run:
-```bash
-docker-compose up -d
-```
-
-This will start:
-- Frontend on port 3000
-- Backend on port 5000
-- PostgreSQL on port 5432
-- Redis on port 6379
-
-### Deploying to Production
-
-#### Frontend Deployment (Vercel)
-
-1. Install Vercel CLI:
-```bash
-npm install -g vercel
-```
-
-2. Navigate to frontend directory:
-```bash
-cd frontend
-```
-
-3. Deploy to Vercel:
-```bash
-vercel --prod
-```
-
-4. Set up GitHub Actions for automatic deployment:
-   - Add secrets to your GitHub repository:
-     - `VERCEL_TOKEN`
-     - `VERCEL_ORG_ID`
-     - `VERCEL_PROJECT_ID`
-
-#### Backend Deployment (Render)
-
-1. Create a new Web Service on [Render](https://render.com)
-
-2. Connect your GitHub repository
-
-3. Configure the service:
-   - Build Command: `npm install`
-   - Start Command: `npm start`
-   - Environment: Node
-
-4. Add environment variables in Render dashboard
-
-5. Create PostgreSQL and Redis instances on Render
-
-6. Deploy!
-
-Alternatively, use the `render.yaml` configuration for automatic setup.
-
-#### Alternative: Railway Deployment
-
-1. Create a new project on [Railway](https://railway.app)
-
-2. Add PostgreSQL and Redis services
-
-3. Deploy from GitHub repository
-
-4. Configure environment variables
-
-### GitHub Actions CI/CD
-
-The project includes GitHub Actions workflows for automated deployment:
-
-- Frontend: `.github/workflows/deploy.yml` in frontend directory
-- Backend: `.github/workflows/deploy.yml` in backend directory
-
-To enable:
-1. Push your code to GitHub
-2. Configure the required secrets in repository settings
-3. Push to main/master branch to trigger deployment
-
-## API Documentation
-
-### Base URL
-- Development: `http://localhost:5000/api`
-- Production: `https://your-backend-url.com/api`
-
-### Authentication Endpoints
-
-#### Register User
+##### Register User
 ```
 POST /api/auth/register
 Body: {
@@ -312,7 +104,7 @@ Body: {
 }
 ```
 
-#### Login
+##### Login
 ```
 POST /api/auth/login
 Body: {
@@ -321,7 +113,7 @@ Body: {
 }
 ```
 
-#### Get Profile (Protected)
+##### Get Profile (Protected)
 ```
 GET /api/auth/profile
 Headers: {
@@ -329,78 +121,67 @@ Headers: {
 }
 ```
 
-### Organization Endpoints (Protected)
+### User Roles
 
-#### Get All Organizations
-```
-GET /api/organizations
-```
+- **customer**: Basic user - can book tokens, view their own tokens
+- **staff**: Service provider - can serve tokens, update queue status
+- **manager**: Department manager - can manage queues, view analytics
+- **owner**: Organization admin - full control over organization
 
-#### Create Organization
-```
-POST /api/organizations
-Body: {
-  "name": "City Medical Center",
-  "code": "CMC123",
-  "domain": "healthcare",
-  "description": "Medical services",
-  "address": "123 Main St",
-  "city": "New York",
-  "state": "NY",
-  "country": "USA"
-}
-```
+### Frontend Features
 
-### Token Endpoints (Protected)
+#### Login & Authentication
+- **User/Admin Toggle**: Switch between user and admin login modes
+- **Protected Routes**: Admin routes require manager/owner roles
+- **Role-based Navigation**: Dynamic navbar based on user role
 
-#### Create Token
-```
-POST /api/tokens
-Body: {
-  "queue_id": 1,
-  "user_id": 1,
-  "organization_id": 1,
-  "priority": false
-}
-```
+#### UI Components
+- **Modern SaaS Design**: Clean, professional interface
+- **Responsive Layout**: Works on all device sizes
+- **Traditional CSS**: No Tailwind CSS used (user preference)
+- **Accessibility**: Proper contrast, focus states, keyboard navigation
 
-#### Update Token Status
-```
-PUT /api/tokens/:id
-Body: {
-  "status": "serving"
-}
-```
+### Admin Panel Features
 
-## Real-time Features
+- **Separate Interface**: Located outside main project folder
+- **Secure Access**: Specific credentials required
+- **Admin Management**: Create new admin users with manager/owner roles
+- **User Listing**: View existing admin users
+- **Real-time Data**: Connects to main application database
 
-The application uses Socket.IO for real-time updates:
+### Security Features
 
-### Events
+- Password hashing with bcrypt
+- JWT-based authentication
+- Protected API routes
+- Role-based authorization
+- Environment variable configuration
+- SQL injection prevention (parameterized queries)
+- XSS protection
+- CORS configuration
+- Secure admin panel access
 
-**Client → Server:**
-- `join_queue_room`: Join a specific queue for updates
-- `join_org_room`: Join organization room for admin updates
-- `update_token_status`: Update token status
+### Development
 
-**Server → Client:**
-- `token_status_updated`: Token status changed
-- `queue_updated`: Queue information updated
-- `new_token_added`: New token created
-- `my_token_updated`: User's own token updated
+The project follows a modular architecture with separate models, routes, middleware, and services for better maintainability.
 
-## Contributing
+### Contributing
 
 1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+2. Create a feature branch
+3. Make your changes
+4. Submit a pull request
 
-## License
+### License
 
-This project is licensed under the ISC License.
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-## Support
+### Support
 
-For support, email support@qease.com or open an issue in the GitHub repository.
+For support, please open an issue in the repository.
+
+## Acknowledgments
+
+- Built with ❤️ for better queue management
+- Inspired by the need to reduce physical waiting lines
+- Dedicated to improving customer experience

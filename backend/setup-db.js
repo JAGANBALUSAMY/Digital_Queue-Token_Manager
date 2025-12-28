@@ -218,6 +218,26 @@ async function setupDatabase() {
         console.log('✅ Created feedback table');
       }
 
+      if (!existingTables.includes('announcements')) {
+        await targetPool.query(`
+          CREATE TABLE announcements (
+            id SERIAL PRIMARY KEY,
+            organization_id INTEGER REFERENCES organizations(id) ON DELETE CASCADE,
+            queue_id INTEGER REFERENCES service_queues(id) ON DELETE CASCADE,
+            title VARCHAR(255) NOT NULL,
+            message TEXT NOT NULL,
+            priority VARCHAR(50) NOT NULL DEFAULT 'normal', -- normal, high, urgent
+            created_by INTEGER REFERENCES users(id) ON DELETE SET NULL,
+            is_active BOOLEAN DEFAULT TRUE,
+            start_date TIMESTAMP NULL,
+            end_date TIMESTAMP NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+          );
+        `);
+        console.log('✅ Created announcements table');
+      }
+
       if (!existingTables.includes('audit_logs')) {
         await targetPool.query(`
           CREATE TABLE audit_logs (

@@ -140,6 +140,38 @@ class Organization {
       throw error;
     }
   }
+  
+  // Verify an organization (admin only)
+  static async verify(id) {
+    const query = `
+      UPDATE organizations 
+      SET is_verified = true, updated_at = CURRENT_TIMESTAMP
+      WHERE id = $1
+      RETURNING *
+    `;
+    
+    try {
+      const result = await db.query(query, [id]);
+      if (result.rows.length === 0) {
+        return null;
+      }
+      return new Organization(result.rows[0]);
+    } catch (error) {
+      throw error;
+    }
+  }
+  
+  // Get unverified organizations
+  static async getUnverified() {
+    const query = 'SELECT * FROM organizations WHERE is_verified = false ORDER BY created_at DESC';
+    
+    try {
+      const result = await db.query(query);
+      return result.rows.map(row => new Organization(row));
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 module.exports = Organization;
