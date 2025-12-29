@@ -1,13 +1,30 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>frontend</title>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="/vite.svg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q-Ease - Digital Queue Management System</title>
+    <style>
+      body { margin: 0; font-family: Arial, sans-serif; }
+      .container { display: flex; justify-content: center; align-items: center; height: 100vh; flex-direction: column; }
+      .portal-links { margin-top: 20px; display: flex; gap: 20px; }
+      .portal-link { padding: 10px 20px; color: white; text-decoration: none; border-radius: 5px; }
+      .user-link { background-color: #3b82f6; }
+      .admin-link { background-color: #f59e0b; }
+    </style>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <div class="container">
+        <h1>Welcome to Q-Ease Digital Queue System</h1>
+        <p>Please select your user type:</p>
+        <div class="portal-links">
+          <a href="/user" class="portal-link user-link">User Portal</a>
+          <a href="/staff-manager-owner" class="portal-link admin-link">Staff/Manager/Owner Portal</a>
+        </div>
+      </div>
+    </div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

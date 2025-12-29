@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Organization = require('../models/Organization');
 const { validateRequiredFields, validateDomain } = require('../middleware/validation');
+const { auth, authorize } = require('../middleware/auth');
 
 // Get all organizations
 router.get('/', async (req, res) => {

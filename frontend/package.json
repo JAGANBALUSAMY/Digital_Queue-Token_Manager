@@ -5,15 +5,17 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:user": "cd user && npm run dev",
+    "dev:staff-manager-owner": "cd staff-manager-owner && npm run dev",
     "build": "vite build",
+    "build:user": "cd user && npm run build",
+    "build:staff-manager-owner": "cd staff-manager-owner && npm run build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
   "dependencies": {
-    "@tailwindcss/postcss": "^4.1.18",
     "react": "^19.2.0",
-    "react-dom": "^19.2.0",
-    "react-router-dom": "^7.11.0"
+    "react-dom": "^19.2.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
